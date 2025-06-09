@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'OMEGLE';
+    src: url('OMEGLE-Regular.woff2') format('woff2'),
+        url('OMEGLE-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
