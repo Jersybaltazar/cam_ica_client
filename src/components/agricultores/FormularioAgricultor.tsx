@@ -86,7 +86,14 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     practica_economica_sost: '',
     porcentaje_prac_economica_sost: ''
   });
-
+  // Agregar al inicio del FormularioAgricultor
+  useEffect(() => {
+    console.log('🔍 DEBUG FormularioAgricultor:');
+    console.log('- agricultor:', agricultor);
+    console.log('- agricultor?.dni:', agricultor?.dni);
+    console.log('- agricultor?.id:', agricultor?.id);
+    console.log('- Modo:', agricultor?.dni ? 'EDICIÓN' : 'CREACIÓN');
+  }, [agricultor]);
   // Inicializar formulario con datos del agricultor si es edición
   useEffect(() => {
     if (agricultor) {
@@ -103,7 +110,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         tamaño_empresa: agricultor.tamaño_empresa || 'Pequeña',
         sector: agricultor.sector || 'Agrícola',
         pais: agricultor.pais || 'PERÚ',
-        nombre_empresa_organizacion: agricultor.nombre_empresa_organizacion || '',  
+        nombre_empresa_organizacion: agricultor.nombre_empresa_organizacion || '',
         // Cultivos (sin cambios)
         esparrago: agricultor.esparrago || 'NO',
         granada: agricultor.granada || 'NO',
@@ -206,47 +213,168 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     setError('');
 
     try {
-      const { dni, ...formDataWithoutDni } = formData;
-      // Convertir datos de texto a números/booleanos según corresponda
-      const agricultorData: Partial<Agricultor>= {
-        ...formDataWithoutDni,
-        // Edad ya es string, lo dejamos como está
-        edad: formData.edad,
-        // Convertir telefono a número
-        telefono: formData.telefono ? parseInt(formData.telefono) : null,
+      if (agricultor?.dni) {
+        // 🔧 MODO EDICIÓN - Crear objeto completamente SIN DNI
+        const { dni, ...formDataWithoutDni } = formData;
 
-        // Datos numéricos para SENASA
-        area_solicitada: formData.area_solicitada ? parseFloat(formData.area_solicitada) : null,
-        rendimiento_certificado: formData.rendimiento_certificado ? parseFloat(formData.rendimiento_certificado) : null,
+        const agricultorDataForUpdate: Partial<Agricultor> = {
+          // Datos básicos (SIN DNI)
+          fecha_censo: formData.fecha_censo,
+          apellidos: formData.apellidos,
+          nombres: formData.nombres,
+          nombre_completo: formData.nombre_completo,
+          nombre_empresa_organizacion: formData.nombre_empresa_organizacion || null,
+          pais: formData.pais,
+          sexo: formData.sexo,
+          edad: formData.edad,
+          telefono: formData.telefono ? parseInt(formData.telefono) : null,
+          tamaño_empresa: formData.tamaño_empresa,
+          sector: formData.sector,
 
-        // Campos existentes
-        area_total_declarada: formData.area_total_declarada ? parseFloat(formData.area_total_declarada) : null,
-        total_ha_sembrada: formData.total_ha_sembrada ? parseFloat(formData.total_ha_sembrada) : 0,
-        productividad_x_ha: formData.productividad_x_ha ? parseFloat(formData.productividad_x_ha) : null,
-        jornales_por_ha: formData.jornales_por_ha ? parseFloat(formData.jornales_por_ha) : null,
+          // Cultivos
+          esparrago: formData.esparrago,
+          granada: formData.granada,
+          maiz: formData.maiz,
+          palta: formData.palta,
+          papa: formData.papa,
+          pecano: formData.pecano,
+          vid: formData.vid,
+          castaña: formData.castaña,
 
-        // Campos existentes sin cambios
-        edad_cultivo: formData.edad_cultivo || '',
-        tiene_practicas_sostenibles: formData.practica_economica_sost ? true : false,
-        porcentaje_prac_economica_sost: formData.porcentaje_prac_economica_sost || '',
-        cultivos_activos: determineCultivosActivos()
-      };
+          // Ubicación
+          dpto: formData.dpto,
+          provincia: formData.provincia,
+          distrito: formData.distrito,
+          centro_poblado: formData.centro_poblado || null,
+          coordenadas: formData.coordenadas || null,
+          ubicacion_maps: formData.ubicacion_maps || null,
 
-      if (agricultor?.id) {
-      // Modo edición - NO incluir DNI en el cuerpo
-      console.log('Actualizando agricultor con DNI:', agricultor.dni);
-      console.log('Datos enviados (SIN DNI):', agricultorData);
-      await agricultoresService.updateAgricultor(agricultor.dni, agricultorData);
-    } else {
-      // Modo creación - SÍ incluir DNI
-      const agricultorDataConDni = { dni: formData.dni, ...agricultorData };
-      console.log('Creando agricultor:', agricultorDataConDni);
-      await agricultoresService.createAgricultor(agricultorDataConDni as Agricultor);
-    }
+          // SENASA
+          senasa: formData.senasa,
+          cod_lugar_prod: formData.cod_lugar_prod || null,
+          area_solicitada: formData.area_solicitada ? parseFloat(formData.area_solicitada) : null,
+          rendimiento_certificado: formData.rendimiento_certificado ? parseFloat(formData.rendimiento_certificado) : null,
+          predio: formData.predio || null,
+          direccion: formData.direccion || null,
+          departamento_senasa: formData.departamento_senasa || null,
+          provincia_senasa: formData.provincia_senasa || null,
+          distrito_senasa: formData.distrito_senasa || null,
+          sector_senasa: formData.sector_senasa || null,
+          subsector_senasa: formData.subsector_senasa || null,
+
+          // SISPA
+          sispa: formData.sispa,
+          codigo_autogene_sispa: formData.codigo_autogene_sispa || null,
+          regimen_tenencia_sispa: formData.regimen_tenencia_sispa || null,
+          area_total_declarada: formData.area_total_declarada ? parseFloat(formData.area_total_declarada) : null,
+          fecha_actualizacion_sispa: formData.fecha_actualizacion_sispa || null,
+
+          // Programas
+          programa_plantas: formData.programa_plantas,
+          inia_programa_peru_2m: formData.inia_programa_peru_2m,
+          senasa_escuela_campo: formData.senasa_escuela_campo,
+
+          // Información técnica
+          toma: formData.toma || null,
+          edad_cultivo: formData.edad_cultivo || null,
+          total_ha_sembrada: formData.total_ha_sembrada ? parseFloat(formData.total_ha_sembrada) : 0,
+          productividad_x_ha: formData.productividad_x_ha ? parseFloat(formData.productividad_x_ha) : null,
+          tipo_riego: formData.tipo_riego || '',
+          nivel_alcance_venta: formData.nivel_alcance_venta || 'LOCAL',
+          jornales_por_ha: formData.jornales_por_ha ? parseFloat(formData.jornales_por_ha) : null,
+
+          // Sostenibilidad
+          practica_economica_sost: formData.practica_economica_sost || undefined,
+          porcentaje_prac_economica_sost: formData.porcentaje_prac_economica_sost || undefined,
+          tiene_practicas_sostenibles: formData.practica_economica_sost ? true : false,
+          cultivos_activos: determineCultivosActivos()
+        };
+
+        console.log('🔧 MODO EDICIÓN - Actualizando agricultor con DNI:', agricultor.dni);
+        console.log('📤 Datos enviados (GARANTIZADO SIN DNI):', agricultorDataForUpdate);
+
+        await agricultoresService.updateAgricultor(agricultor.dni, agricultorDataForUpdate);
+
+      } else {
+        // 🆕 MODO CREACIÓN - Aquí SÍ incluir DNI
+        const agricultorDataForCreate: Agricultor = {
+          // ✅ INCLUIR DNI para creación
+          dni: formData.dni,
+
+          // Todos los demás campos igual que arriba
+          fecha_censo: formData.fecha_censo,
+          apellidos: formData.apellidos,
+          nombres: formData.nombres,
+          nombre_completo: formData.nombre_completo,
+          nombre_empresa_organizacion: formData.nombre_empresa_organizacion || null,
+          pais: formData.pais,
+          sexo: formData.sexo,
+          edad: formData.edad,
+          telefono: formData.telefono ? parseInt(formData.telefono) : null,
+          tamaño_empresa: formData.tamaño_empresa,
+          sector: formData.sector,
+
+          // ... resto de campos igual
+          esparrago: formData.esparrago,
+          granada: formData.granada,
+          maiz: formData.maiz,
+          palta: formData.palta,
+          papa: formData.papa,
+          pecano: formData.pecano,
+          vid: formData.vid,
+          castaña: formData.castaña,
+
+          dpto: formData.dpto,
+          provincia: formData.provincia,
+          distrito: formData.distrito,
+          centro_poblado: formData.centro_poblado || null,
+          ubicacion_completa: formData.ubicacion_completa || '', // <-- Añadido para cumplir con el tipo Agricultor
+          coordenadas: formData.coordenadas || null,
+          ubicacion_maps: formData.ubicacion_maps || null,
+
+          senasa: formData.senasa,
+          cod_lugar_prod: formData.cod_lugar_prod || null,
+          area_solicitada: formData.area_solicitada ? parseFloat(formData.area_solicitada) : null,
+          rendimiento_certificado: formData.rendimiento_certificado ? parseFloat(formData.rendimiento_certificado) : null,
+          predio: formData.predio || null,
+          direccion: formData.direccion || null,
+          departamento_senasa: formData.departamento_senasa || null,
+          provincia_senasa: formData.provincia_senasa || null,
+          distrito_senasa: formData.distrito_senasa || null,
+          sector_senasa: formData.sector_senasa || null,
+          subsector_senasa: formData.subsector_senasa || null,
+
+          sispa: formData.sispa,
+          codigo_autogene_sispa: formData.codigo_autogene_sispa || null,
+          regimen_tenencia_sispa: formData.regimen_tenencia_sispa || null,
+          area_total_declarada: formData.area_total_declarada ? parseFloat(formData.area_total_declarada) : null,
+          fecha_actualizacion_sispa: formData.fecha_actualizacion_sispa || null,
+
+          programa_plantas: formData.programa_plantas,
+          inia_programa_peru_2m: formData.inia_programa_peru_2m,
+          senasa_escuela_campo: formData.senasa_escuela_campo,
+
+          toma: formData.toma || null,
+          edad_cultivo: formData.edad_cultivo || null,
+          total_ha_sembrada: formData.total_ha_sembrada ? parseFloat(formData.total_ha_sembrada) : 0,
+          productividad_x_ha: formData.productividad_x_ha ? parseFloat(formData.productividad_x_ha) : null,
+          tipo_riego: formData.tipo_riego || '',
+          nivel_alcance_venta: formData.nivel_alcance_venta || 'LOCAL',
+          jornales_por_ha: formData.jornales_por_ha ? parseFloat(formData.jornales_por_ha) : null,
+
+          practica_economica_sost: formData.practica_economica_sost || '',
+          porcentaje_prac_economica_sost: formData.porcentaje_prac_economica_sost || '',
+          tiene_practicas_sostenibles: formData.practica_economica_sost ? true : false,
+          cultivos_activos: determineCultivosActivos()
+        };
+
+        console.log('🆕 MODO CREACIÓN - Creando agricultor CON DNI:', agricultorDataForCreate);
+        await agricultoresService.createAgricultor(agricultorDataForCreate);
+      }
 
       onSuccess();
     } catch (err) {
-      console.error('Error al guardar agricultor:', err);
+      console.error('❌ Error al guardar agricultor:', err);
       setError('Ocurrió un error al guardar los datos. Por favor, intente nuevamente.');
     } finally {
       setLoading(false);
@@ -1307,7 +1435,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
             </div>
           </div>
         </div>
-      )}  
+      )}
     </div>
   );
 
