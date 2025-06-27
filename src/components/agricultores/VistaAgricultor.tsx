@@ -1,6 +1,7 @@
 import React from "react";
-import { FaEdit, FaUser, FaSeedling, FaMapMarkerAlt, FaLeaf, FaCertificate, FaChartLine } from "react-icons/fa";
+import { FaEdit, FaUser, FaSeedling, FaMapMarkerAlt, FaLeaf, FaCertificate, FaChartLine, FaPhone, FaBuilding, FaIndustry, FaMapPin, FaLink } from "react-icons/fa";
 import { Agricultor } from "../../types";
+
 interface VistaAgricultorProps {
   agricultor: Agricultor | null;
   onBack: () => void;
@@ -20,10 +21,19 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
     if (agricultor.papa === 'SÍ') cultivos.push('Papa');
     if (agricultor.pecano === 'SÍ') cultivos.push('Pecano');
     if (agricultor.vid === 'SÍ') cultivos.push('Vid');
+    if (agricultor.castaña === 'SÍ') cultivos.push('Castaña');
 
     return cultivos;
   };
+  const getProgramasActivos = () => {
+    const programas = [];
 
+    if (agricultor.programa_plantas === 'SÍ') programas.push('Programa PLANTAS');
+    if (agricultor.inia_programa_peru_2m === 'SÍ') programas.push('INIA Programa Perú 2M');
+    if (agricultor.senasa_escuela_campo === 'SÍ') programas.push('SENASA Escuela de Campo');
+
+    return programas;
+  };
   // Formatear fechas
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return 'No especificado';
@@ -37,8 +47,9 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
   };
 
   const cultivosActivos = getCultivosActivos();
+  const programasActivos = getProgramasActivos();
 
-  return (
+return (
     <div className="bg-white rounded-lg shadow-md">
       {/* Encabezado */}
       <div
@@ -118,7 +129,14 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                     {agricultor.apellidos || "No especificado"}
                   </p>
                 </div>
-
+                <div>
+                  <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                    País
+                  </p>
+                  <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                    {agricultor.pais || "No especificado"}
+                  </p>
+                </div>
                 <div>
                   <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
                     Sexo
@@ -133,7 +151,48 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                     Edad
                   </p>
                   <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
-                    {agricultor.edad ? `${agricultor.edad} años` : "No especificada"}
+                    {agricultor.edad || "No especificada"}
+                  </p>
+                </div>
+
+                {/* Nuevo campo: Teléfono */}
+                {agricultor.telefono && (
+                  <div>
+                    <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                      <FaPhone className="inline mr-1" /> Teléfono
+                    </p>
+                    <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                      {agricultor.telefono}
+                    </p>
+                  </div>
+                )}
+                {agricultor.nombre_empresa_organizacion && (
+                  <div>
+                    <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                      <FaBuilding className="inline mr-1" /> Empresa u Organización
+                    </p>
+                    <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                      {agricultor.nombre_empresa_organizacion}
+                    </p>
+                  </div>
+                )}
+                {/* Nuevo campo: Tamaño Empresa */}
+                <div>
+                  <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                    <FaBuilding className="inline mr-1" /> Tamaño de Empresa
+                  </p>
+                  <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                    {agricultor.tamaño_empresa || "No especificado"}
+                  </p>
+                </div>
+
+                {/* Nuevo campo: Sector */}
+                <div>
+                  <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                    <FaIndustry className="inline mr-1" /> Sector
+                  </p>
+                  <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                    {agricultor.sector || "No especificado"}
                   </p>
                 </div>
               </div>
@@ -198,6 +257,36 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                     </p>
                   </div>
                 )}
+
+                {/* Nuevos campos: Coordenadas */}
+                {agricultor.coordenadas && (
+                  <div>
+                    <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                      <FaMapPin className="inline mr-1" /> Coordenadas
+                    </p>
+                    <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                      {agricultor.coordenadas}
+                    </p>
+                  </div>
+                )}
+
+                {/* Nuevo campo: Link de Google Maps */}
+                {agricultor.ubicacion_maps && (
+                  <div>
+                    <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                      <FaLink className="inline mr-1" /> Ver en Google Maps
+                    </p>
+                    <a
+                      href={agricultor.ubicacion_maps}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-medium text-[#2DB292] hover:underline"
+                      style={{ fontFamily: 'Montserrat' }}
+                    >
+                      Abrir mapa
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -244,9 +333,33 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
               </h3>
 
               <div className="space-y-4">
+                {/* Programas de certificación */}
                 <div>
-                  <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
-                    Estado certificaciones
+                  <p className="text-sm text-gray-500 mb-2" style={{ fontFamily: 'Montserrat' }}>
+                    Capacitaciones
+                  </p>
+                  {programasActivos.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {programasActivos.map((programa, index) => (
+                        <div
+                          key={index}
+                          className="bg-blue-50 text-blue-700 rounded-md px-3 py-2 text-center"
+                          style={{ fontFamily: 'Montserrat' }}
+                        >
+                          {programa}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                      No participa en programas de certificación
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <p className="text-sm text-gray-500 mb-2" style={{ fontFamily: 'Montserrat' }}>
+                    Certificaciones
                   </p>
                   <div className="flex mt-2 space-x-3">
                     <div className={`py-1 px-3 rounded-md ${agricultor.senasa === 'SÍ' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-500'}`}>
@@ -258,8 +371,131 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                   </div>
                 </div>
 
+                {/* SENASA información detallada */}
+                {agricultor.senasa === 'SÍ' && (
+                  <div className="pt-3 space-y-3 border-t border-gray-200">
+                    <p className="font-medium text-[#2DB292]" style={{ fontFamily: 'Montserrat' }}>
+                      Información SENASA
+                    </p>
+                    
+                    {agricultor.cod_lugar_prod && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Código de lugar de producción
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.cod_lugar_prod}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.area_solicitada !== null && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Área solicitada
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.area_solicitada} ha
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.rendimiento_certificado !== null && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Rendimiento certificado
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.rendimiento_certificado} ton/ha
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.predio && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Predio
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.predio}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.direccion && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Dirección
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.direccion}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.departamento_senasa && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Departamento SENASA
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.departamento_senasa}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.provincia_senasa && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Provincia SENASA
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.provincia_senasa}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.distrito_senasa && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Distrito SENASA
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.distrito_senasa}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.sector_senasa && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Sector SENASA
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.sector_senasa}
+                        </p>
+                      </div>
+                    )}
+
+                    {agricultor.subsector_senasa && (
+                      <div>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
+                          Subsector SENASA
+                        </p>
+                        <p className="font-medium" style={{ fontFamily: 'Montserrat' }}>
+                          {agricultor.subsector_senasa}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {agricultor.sispa === 'SÍ' && (
                   <div className="pt-3 space-y-3 border-t border-gray-200">
+                    <p className="font-medium text-[#2DB292]" style={{ fontFamily: 'Montserrat' }}>
+                      Información SISPA
+                    </p>
+                    
                     {agricultor.codigo_autogene_sispa && (
                       <div>
                         <p className="text-sm text-gray-500" style={{ fontFamily: 'Montserrat' }}>
@@ -440,12 +676,15 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                       {agricultor.porcentaje_prac_economica_sost}
                     </p>
 
-                    {agricultor.porcentaje_prac_economica_sost.includes('%') ? (
+                    {agricultor.porcentaje_prac_economica_sost && (
                       <div className="w-full bg-gray-200 rounded-full h-2.5 mb-1">
                         <div
                           className="h-2.5 rounded-full transition-all duration-300 ease-in-out"
                           style={{
                             width: `${(() => {
+                              // Manejar el caso en que porcentaje_prac_economica_sost sea null
+                              if (!agricultor.porcentaje_prac_economica_sost) return 0;
+                              
                               const porcentaje = agricultor.porcentaje_prac_economica_sost;
                               // Si contiene un guión, es un rango, tomar el valor máximo
                               if (porcentaje.includes('-')) {
@@ -453,13 +692,13 @@ const VistaAgricultor: React.FC<VistaAgricultorProps> = ({ agricultor, onBack, o
                                 return match ? parseInt(match[2]) : 0;
                               }
                               // Si es un valor simple como "50%"
-                              return parseInt(porcentaje.replace('%', '').trim());
+                              return parseInt(porcentaje.replace('%', '').trim()) || 0;
                             })()}%`,
                             backgroundColor: '#66C874'
                           }}>
                         </div>
                       </div>
-                    ) : null}
+                    )}
                   </div>
                 )}
               </div>

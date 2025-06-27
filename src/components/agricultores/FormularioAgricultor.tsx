@@ -23,9 +23,13 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     nombres: '',
     nombre_completo: '',
     sexo: 'HOMBRE',
-    edad: '',
-
-    // Cultivos
+    edad: 'mayor de 29', // Nuevo formato de edad (string)
+    telefono: '', // Nuevo campo
+    tamaño_empresa: 'Pequeña', // Nuevo campo
+    sector: 'Agrícola', // Nuevo campo
+    pais: 'PERÚ',
+    nombre_empresa_organizacion: '',
+    // Cultivos (sin cambios)
     esparrago: 'NO',
     granada: 'NO',
     maiz: 'NO',
@@ -33,23 +37,43 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     papa: 'NO',
     pecano: 'NO',
     vid: 'NO',
-
-    // Ubicación
+    castaña: 'NO',
+    // Ubicación (nuevos campos)
     dpto: '',
     provincia: '',
     distrito: '',
     centro_poblado: '',
     ubicacion_completa: '',
+    coordenadas: '', // Nuevo campo
+    ubicacion_maps: '', // Nuevo campo
 
     // Certificaciones
     senasa: 'NO',
+    // Nuevos campos de SENASA
+    cod_lugar_prod: '',
+    area_solicitada: '',
+    rendimiento_certificado: '',
+    predio: '',
+    direccion: '',
+    departamento_senasa: '',
+    provincia_senasa: '',
+    distrito_senasa: '',
+    sector_senasa: '',
+    subsector_senasa: '',
+
+    // SISPA (sin cambios)
     sispa: 'NO',
     codigo_autogene_sispa: '',
     regimen_tenencia_sispa: '',
     area_total_declarada: '',
     fecha_actualizacion_sispa: '',
 
-    // Información técnica
+    // Nuevos programas de certificación
+    programa_plantas: 'NO',
+    inia_programa_peru_2m: 'NO',
+    senasa_escuela_campo: 'NO',
+
+    // Información técnica (sin cambios)
     toma: '',
     edad_cultivo: '',
     total_ha_sembrada: '',
@@ -58,7 +82,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     nivel_alcance_venta: 'LOCAL',
     jornales_por_ha: '',
 
-    // Prácticas sostenibles
+    // Prácticas sostenibles (sin cambios)
     practica_economica_sost: '',
     porcentaje_prac_economica_sost: ''
   });
@@ -74,9 +98,13 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         nombres: agricultor.nombres || '',
         nombre_completo: agricultor.nombre_completo || '',
         sexo: agricultor.sexo || 'HOMBRE',
-        edad: agricultor.edad?.toString() || '',
-
-        // Cultivos
+        edad: agricultor.edad || 'mayor de 29',
+        telefono: agricultor.telefono?.toString() || '',
+        tamaño_empresa: agricultor.tamaño_empresa || 'Pequeña',
+        sector: agricultor.sector || 'Agrícola',
+        pais: agricultor.pais || 'PERÚ',
+        nombre_empresa_organizacion: agricultor.nombre_empresa_organizacion || '',  
+        // Cultivos (sin cambios)
         esparrago: agricultor.esparrago || 'NO',
         granada: agricultor.granada || 'NO',
         maiz: agricultor.maiz || 'NO',
@@ -84,25 +112,44 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         papa: agricultor.papa || 'NO',
         pecano: agricultor.pecano || 'NO',
         vid: agricultor.vid || 'NO',
-
+        castaña: agricultor.castaña || 'NO',
         // Ubicación
         dpto: agricultor.dpto || '',
         provincia: agricultor.provincia || '',
         distrito: agricultor.distrito || '',
         centro_poblado: agricultor.centro_poblado || '',
         ubicacion_completa: agricultor.ubicacion_completa || '',
+        coordenadas: agricultor.coordenadas || '',
+        ubicacion_maps: agricultor.ubicacion_maps || '',
 
-        // Certificaciones
+        // Certificaciones - SENASA
         senasa: agricultor.senasa || 'NO',
+        cod_lugar_prod: agricultor.cod_lugar_prod || '',
+        area_solicitada: agricultor.area_solicitada?.toString() || '',
+        rendimiento_certificado: agricultor.rendimiento_certificado?.toString() || '',
+        predio: agricultor.predio || '',
+        direccion: agricultor.direccion || '',
+        departamento_senasa: agricultor.departamento_senasa || '',
+        provincia_senasa: agricultor.provincia_senasa || '',
+        distrito_senasa: agricultor.distrito_senasa || '',
+        sector_senasa: agricultor.sector_senasa || '',
+        subsector_senasa: agricultor.subsector_senasa || '',
+
+        // SISPA (sin cambios)
         sispa: agricultor.sispa || 'NO',
         codigo_autogene_sispa: agricultor.codigo_autogene_sispa || '',
         regimen_tenencia_sispa: agricultor.regimen_tenencia_sispa || '',
         area_total_declarada: agricultor.area_total_declarada?.toString() || '',
         fecha_actualizacion_sispa: agricultor.fecha_actualizacion_sispa || '',
 
+        // Nuevos programas de certificación
+        programa_plantas: agricultor.programa_plantas || 'NO',
+        inia_programa_peru_2m: agricultor.inia_programa_peru_2m || 'NO',
+        senasa_escuela_campo: agricultor.senasa_escuela_campo || 'NO',
+
         // Información técnica
         toma: agricultor.toma || '',
-        edad_cultivo: agricultor.edad_cultivo?.toString() || '',
+        edad_cultivo: agricultor.edad_cultivo || '',
         total_ha_sembrada: agricultor.total_ha_sembrada?.toString() || '',
         productividad_x_ha: agricultor.productividad_x_ha?.toString() || '',
         tipo_riego: agricultor.tipo_riego || '',
@@ -111,7 +158,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
 
         // Prácticas sostenibles
         practica_economica_sost: agricultor.practica_economica_sost || '',
-        porcentaje_prac_economica_sost: agricultor.porcentaje_prac_economica_sost?.toString() || ''
+        porcentaje_prac_economica_sost: agricultor.porcentaje_prac_economica_sost || ''
       });
     }
   }, [agricultor]);
@@ -150,7 +197,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     if (formData.papa === 'SÍ') cultivos.push('PAPA');
     if (formData.pecano === 'SÍ') cultivos.push('PECANO');
     if (formData.vid === 'SÍ') cultivos.push('VID');
-
+    if (formData.castaña === 'SÍ') cultivos.push('CASTAÑA');
     return cultivos;
   };
   const handleSubmit = async (e: React.FormEvent) => {
@@ -159,14 +206,26 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
     setError('');
 
     try {
+      const { dni, ...formDataWithoutDni } = formData;
       // Convertir datos de texto a números/booleanos según corresponda
-      const agricultorData: Agricultor = {
-        ...formData,
-        edad: formData.edad ? parseInt(formData.edad) : 0,
+      const agricultorData: Partial<Agricultor>= {
+        ...formDataWithoutDni,
+        // Edad ya es string, lo dejamos como está
+        edad: formData.edad,
+        // Convertir telefono a número
+        telefono: formData.telefono ? parseInt(formData.telefono) : null,
+
+        // Datos numéricos para SENASA
+        area_solicitada: formData.area_solicitada ? parseFloat(formData.area_solicitada) : null,
+        rendimiento_certificado: formData.rendimiento_certificado ? parseFloat(formData.rendimiento_certificado) : null,
+
+        // Campos existentes
         area_total_declarada: formData.area_total_declarada ? parseFloat(formData.area_total_declarada) : null,
         total_ha_sembrada: formData.total_ha_sembrada ? parseFloat(formData.total_ha_sembrada) : 0,
         productividad_x_ha: formData.productividad_x_ha ? parseFloat(formData.productividad_x_ha) : null,
         jornales_por_ha: formData.jornales_por_ha ? parseFloat(formData.jornales_por_ha) : null,
+
+        // Campos existentes sin cambios
         edad_cultivo: formData.edad_cultivo || '',
         tiene_practicas_sostenibles: formData.practica_economica_sost ? true : false,
         porcentaje_prac_economica_sost: formData.porcentaje_prac_economica_sost || '',
@@ -174,12 +233,16 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
       };
 
       if (agricultor?.id) {
-        // Modo edición
-        await agricultoresService.updateAgricultor(agricultor.id, agricultorData);
-      } else {
-        // Modo creación
-        await agricultoresService.createAgricultor(agricultorData);
-      }
+      // Modo edición - NO incluir DNI en el cuerpo
+      console.log('Actualizando agricultor con DNI:', agricultor.dni);
+      console.log('Datos enviados (SIN DNI):', agricultorData);
+      await agricultoresService.updateAgricultor(agricultor.dni, agricultorData);
+    } else {
+      // Modo creación - SÍ incluir DNI
+      const agricultorDataConDni = { dni: formData.dni, ...agricultorData };
+      console.log('Creando agricultor:', agricultorDataConDni);
+      await agricultoresService.createAgricultor(agricultorDataConDni as Agricultor);
+    }
 
       onSuccess();
     } catch (err) {
@@ -214,6 +277,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
   const renderTabs = () => (
     <div className="flex flex-wrap border-b border-gray-200 mb-6">
       <button
+        type="button"
         onClick={() => setActiveTab('personal')}
         className={`px-4 py-2 font-medium ${activeTab === 'personal' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -222,6 +286,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         Datos Personales
       </button>
       <button
+        type="button"
         onClick={() => setActiveTab('cultivos')}
         className={`px-4 py-2 font-medium ${activeTab === 'cultivos' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -231,6 +296,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         Cultivos
       </button>
       <button
+        type="button"
         onClick={() => setActiveTab('ubicacion')}
         className={`px-4 py-2 font-medium ${activeTab === 'ubicacion' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -239,6 +305,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         Ubicación
       </button>
       <button
+        type="button"
         onClick={() => setActiveTab('certificaciones')}
         className={`px-4 py-2 font-medium ${activeTab === 'certificaciones' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -247,6 +314,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         Certificaciones
       </button>
       <button
+        type="button"
         onClick={() => setActiveTab('tecnica')}
         className={`px-4 py-2 font-medium ${activeTab === 'tecnica' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -255,6 +323,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         Info. Técnica
       </button>
       <button
+        type="button"
         onClick={() => setActiveTab('sostenibilidad')}
         className={`px-4 py-2 font-medium ${activeTab === 'sostenibilidad' ? 'text-[#154E40] border-b-2 border-[#2DB292]' : 'text-gray-500'}`}
         style={{ fontFamily: 'Montserrat' }}
@@ -310,7 +379,35 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
           placeholder="Número de documento (8 dígitos)"
         />
       </div>
-
+      <div>
+        <label
+          htmlFor="pais"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          País <span className="text-red-500">*</span>
+        </label>
+        <select
+          id="pais"
+          name="pais"
+          value={formData.pais}
+          onChange={handleChange}
+          required
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          <option value="PERÚ">PERÚ</option>
+          <option value="BOLIVIA">BOLIVIA</option>
+          <option value="COLOMBIA">COLOMBIA</option>
+          <option value="ECUADOR">ECUADOR</option>
+          <option value="VENEZUELA">VENEZUELA</option>
+          <option value="CHILE">CHILE</option>
+          <option value="ARGENTINA">ARGENTINA</option>
+          <option value="BRASIL">BRASIL</option>
+          <option value="URUGUAY">URUGUAY</option>
+          <option value="PARAGUAY">PARAGUAY</option>
+        </select>
+      </div>
       {/* Fecha de censo */}
       <div>
         <label
@@ -375,7 +472,25 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
           placeholder="Apellidos del agricultor"
         />
       </div>
-
+      <div>
+        <label
+          htmlFor="nombre_empresa_organizacion"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Nombre de empresa u organización
+        </label>
+        <input
+          type="text"
+          id="nombre_empresa_organizacion"
+          name="nombre_empresa_organizacion"
+          value={formData.nombre_empresa_organizacion || ''}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+          placeholder="Nombre de la empresa u organización (opcional)"
+        />
+      </div>
       {/* Nombre completo (automático) */}
       <div>
         <label
@@ -395,7 +510,25 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
           style={{ fontFamily: 'Montserrat' }}
         />
       </div>
-
+      <div>
+        <label
+          htmlFor="telefono"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Teléfono
+        </label>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          value={formData.telefono}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+          placeholder="Número de teléfono"
+        />
+      </div>
       {/* Género */}
       <div>
         <label
@@ -428,18 +561,63 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
         >
           Edad
         </label>
-        <input
-          type="number"
+        <select
           id="edad"
           name="edad"
           value={formData.edad}
           onChange={handleChange}
-          min="0"
-          max="120"
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
           style={{ fontFamily: 'Montserrat' }}
-          placeholder="Edad en años"
-        />
+        >
+          <option value="MAYOR DE 29 AÑOS">MAYOR DE 29 AÑOS</option>
+          <option value="ENTRE 18 Y 29 AÑOS">ENTRE 18 Y 29 AÑOS</option>
+        </select>
+      </div>
+      <div>
+        <label
+          htmlFor="tamaño_empresa"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Tamaño de empresa
+        </label>
+        <select
+          id="tamaño_empresa"
+          name="tamaño_empresa"
+          value={formData.tamaño_empresa}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          <option value="Pequeña">MICRO</option>
+          <option value="Mediana">PEQUEÑA</option>
+          <option value="Grande">MEDIANA</option>
+        </select>
+      </div>
+
+      {/* Sector - NUEVO CAMPO */}
+      <div>
+        <label
+          htmlFor="sector"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Sector
+        </label>
+        <select
+          id="sector"
+          name="sector"
+          value={formData.sector}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          <option value="Agrícola">AGRICOLA</option>
+          <option value="Pecuario">GANADERA</option>
+          <option value="Mixto">PESQUERA</option>
+          <option value="Mixto">MINERA</option>
+          <option value="Mixto">FORESTAL</option>
+        </select>
       </div>
     </div>
   );
@@ -562,6 +740,20 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
             </div>
           </label>
         </div>
+        <div className="border rounded-lg p-4 hover:bg-gray-50">
+          <label className="flex items-start cursor-pointer">
+            <input
+              type="checkbox"
+              name="castaña"
+              checked={formData.castaña === 'SÍ'}
+              onChange={handleCheckboxChange}
+              className="mt-1 h-4 w-4 text-[#2DB292] rounded focus:ring-[#154E40]"
+            />
+            <div className="ml-3">
+              <span className="block font-medium text-gray-700" style={{ fontFamily: 'Montserrat' }}>Castaña</span>
+            </div>
+          </label>
+        </div>
       </div>
     </div>
   );
@@ -654,6 +846,46 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
           placeholder="Centro poblado (opcional)"
         />
       </div>
+      <div>
+        <label
+          htmlFor="coordenadas"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Coordenadas (latitud, longitud)
+        </label>
+        <input
+          type="text"
+          id="coordenadas"
+          name="coordenadas"
+          value={formData.coordenadas || ''}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+          placeholder="Ej: -12.345678,-76.789012"
+        />
+      </div>
+
+      {/* Ubicación Maps - NUEVO CAMPO */}
+      <div>
+        <label
+          htmlFor="ubicacion_maps"
+          className="block text-sm font-medium text-gray-700 mb-1"
+          style={{ fontFamily: 'Montserrat' }}
+        >
+          Enlace de Google Maps
+        </label>
+        <input
+          type="url"
+          id="ubicacion_maps"
+          name="ubicacion_maps"
+          value={formData.ubicacion_maps || ''}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+          style={{ fontFamily: 'Montserrat' }}
+          placeholder="Ej: https://maps.google.com/?q=-12.345678,-76.789012"
+        />
+      </div>
     </div>
   );
 
@@ -701,6 +933,286 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
           </label>
         </div>
       </div>
+
+      {/* Nuevos programas de certificación */}
+      <div className="mb-6 border-t pt-6">
+        <h4 className="font-medium mb-4" style={{ fontFamily: 'Montserrat', color: '#2DB292' }}>
+          Programas de participación
+        </h4>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Programa PLANTAS */}
+          <div className="border rounded-lg p-4 hover:bg-gray-50">
+            <label className="flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                name="programa_plantas"
+                checked={formData.programa_plantas === 'SÍ'}
+                onChange={handleCheckboxChange}
+                className="mt-1 h-4 w-4 text-[#2DB292] rounded focus:ring-[#154E40]"
+              />
+              <div className="ml-3">
+                <span className="block font-medium text-gray-700" style={{ fontFamily: 'Montserrat' }}>Programa PLANTAS</span>
+              </div>
+            </label>
+          </div>
+
+          {/* INIA Programa Perú 2M */}
+          <div className="border rounded-lg p-4 hover:bg-gray-50">
+            <label className="flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                name="inia_programa_peru_2m"
+                checked={formData.inia_programa_peru_2m === 'SÍ'}
+                onChange={handleCheckboxChange}
+                className="mt-1 h-4 w-4 text-[#2DB292] rounded focus:ring-[#154E40]"
+              />
+              <div className="ml-3">
+                <span className="block font-medium text-gray-700" style={{ fontFamily: 'Montserrat' }}>INIA Programa Perú 2M</span>
+              </div>
+            </label>
+          </div>
+
+          {/* SENASA Escuela de Campo */}
+          <div className="border rounded-lg p-4 hover:bg-gray-50">
+            <label className="flex items-start cursor-pointer">
+              <input
+                type="checkbox"
+                name="senasa_escuela_campo"
+                checked={formData.senasa_escuela_campo === 'SÍ'}
+                onChange={handleCheckboxChange}
+                className="mt-1 h-4 w-4 text-[#2DB292] rounded focus:ring-[#154E40]"
+              />
+              <div className="ml-3">
+                <span className="block font-medium text-gray-700" style={{ fontFamily: 'Montserrat' }}>SENASA Escuela de Campo</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Información adicional SENASA (visible solo si SENASA está seleccionado) */}
+      {formData.senasa === 'SÍ' && (
+        <div className="mt-6 border-t pt-6">
+          <h4 className="font-medium mb-4" style={{ fontFamily: 'Montserrat', color: '#2DB292' }}>
+            Información adicional SENASA
+          </h4>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Código de lugar de producción */}
+            <div>
+              <label
+                htmlFor="cod_lugar_prod"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Código de lugar de producción
+              </label>
+              <input
+                type="text"
+                id="cod_lugar_prod"
+                name="cod_lugar_prod"
+                value={formData.cod_lugar_prod}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: LP-12345"
+              />
+            </div>
+
+            {/* Área solicitada */}
+            <div>
+              <label
+                htmlFor="area_solicitada"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Área solicitada (ha)
+              </label>
+              <input
+                type="number"
+                step="0.01"
+                id="area_solicitada"
+                name="area_solicitada"
+                value={formData.area_solicitada}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: 5.75"
+              />
+            </div>
+
+            {/* Rendimiento certificado */}
+            <div>
+              <label
+                htmlFor="rendimiento_certificado"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Rendimiento certificado (ton/ha)
+              </label>
+              <input
+                type="number"
+                step="0.1"
+                id="rendimiento_certificado"
+                name="rendimiento_certificado"
+                value={formData.rendimiento_certificado}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: 12.8"
+              />
+            </div>
+
+            {/* Predio */}
+            <div>
+              <label
+                htmlFor="predio"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Predio
+              </label>
+              <input
+                type="text"
+                id="predio"
+                name="predio"
+                value={formData.predio}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Parcela El Manantial"
+              />
+            </div>
+
+            {/* Dirección */}
+            <div>
+              <label
+                htmlFor="direccion"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Dirección
+              </label>
+              <input
+                type="text"
+                id="direccion"
+                name="direccion"
+                value={formData.direccion}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Km 5.5 Carretera Santa María"
+              />
+            </div>
+
+            {/* Departamento SENASA */}
+            <div>
+              <label
+                htmlFor="departamento_senasa"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Departamento SENASA
+              </label>
+              <input
+                type="text"
+                id="departamento_senasa"
+                name="departamento_senasa"
+                value={formData.departamento_senasa}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Lima"
+              />
+            </div>
+
+            {/* Provincia SENASA */}
+            <div>
+              <label
+                htmlFor="provincia_senasa"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Provincia SENASA
+              </label>
+              <input
+                type="text"
+                id="provincia_senasa"
+                name="provincia_senasa"
+                value={formData.provincia_senasa}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Barranca"
+              />
+            </div>
+
+            {/* Distrito SENASA */}
+            <div>
+              <label
+                htmlFor="distrito_senasa"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Distrito SENASA
+              </label>
+              <input
+                type="text"
+                id="distrito_senasa"
+                name="distrito_senasa"
+                value={formData.distrito_senasa}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Santa María"
+              />
+            </div>
+
+            {/* Sector SENASA */}
+            <div>
+              <label
+                htmlFor="sector_senasa"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Sector SENASA
+              </label>
+              <input
+                type="text"
+                id="sector_senasa"
+                name="sector_senasa"
+                value={formData.sector_senasa}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Zona Norte"
+              />
+            </div>
+
+            {/* Subsector SENASA */}
+            <div>
+              <label
+                htmlFor="subsector_senasa"
+                className="block text-sm font-medium text-gray-700 mb-1"
+                style={{ fontFamily: 'Montserrat' }}
+              >
+                Subsector SENASA
+              </label>
+              <input
+                type="text"
+                id="subsector_senasa"
+                name="subsector_senasa"
+                value={formData.subsector_senasa}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
+                style={{ fontFamily: 'Montserrat' }}
+                placeholder="Ej: Área 3"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Información adicional SISPA (visible solo si SISPA está seleccionado) */}
       {formData.sispa === 'SÍ' && (
@@ -795,7 +1307,7 @@ const FormularioAgricultor: React.FC<FormularioAgricultorProps> = ({ agricultor,
             </div>
           </div>
         </div>
-      )}
+      )}  
     </div>
   );
 

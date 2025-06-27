@@ -45,7 +45,10 @@ const ListaAgricultores: React.FC<ListaAgricultoresProps> = ({
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              const newQuery = e.target.value;
+              setSearchQuery(newQuery);
+            }}
             placeholder="Buscar por nombre o DNI..."
             className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2DB292]"
             style={{ fontFamily: 'Montserrat' }}

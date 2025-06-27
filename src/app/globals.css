@@ -14,7 +14,7 @@
   --font-omegle: 'Omegle';
 }
 
-@theme inline {
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -42,4 +42,8 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+.uppercase-dynamic-data {
+  text-transform: uppercase;
 }

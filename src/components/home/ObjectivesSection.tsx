@@ -91,7 +91,7 @@ const ObjectivesSection = () => {
       <div className="container mx-auto px-4">
         {/* Título con la misma tipografía y color que AboutSection */}
         <h2 
-          className="text-4xl md:text-5xl lg:text-6xl mb-16 text-center"
+          className="text-2xl md:text-3xl lg:text-4xl mb-16 text-center"
           style={{ fontFamily: 'Omegle', color: '#154E40' }}
         >
           ¿Qué hemos logrado?
@@ -140,7 +140,7 @@ const ObjectivesSection = () => {
                 >
                   {/* Título de logro con color de la paleta */}
                   <h3 
-                    className="text-2xl md:text-3xl font-bold mb-4"
+                    className="text-2xl md:text-3xl mb-4"
                     style={{ fontFamily: 'Omegle', color: '#2DB292' }}
                   >
                     {objectives[currentIndex].title}

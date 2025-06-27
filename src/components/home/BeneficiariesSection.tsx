@@ -8,7 +8,7 @@ const BeneficiariesSection = () => {
           <div className="md:w-1/2 mb-10 md:mb-0">
             {/* Título principal con Omegle y color primario #154E40 */}
             <h2 
-              className="text-3xl font-bold mb-6" 
+              className="text-3xl mb-6" 
               style={{ fontFamily: 'Omegle', color: '#154E40' }}
             >
               ¿A quiénes beneficiamos?
@@ -74,7 +74,7 @@ const BeneficiariesSection = () => {
             >
               {/* Subtítulo con Omegle */}
               <h3 
-                className="text-xl font-bold mb-4" 
+                className="text-xl mb-4" 
                 style={{ fontFamily: 'Omegle', color: '#2DB292' }}
               >
                 Buscamos agricultores con propósito

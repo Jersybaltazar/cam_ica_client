@@ -76,22 +76,6 @@ const Navbar = () => {
             
             {/* Menú de escritorio con efecto de línea superior al hover */}
             <nav className="hidden md:flex space-x-8">
-              <Link 
-                href="/acerca-de" 
-                className={`text-sm font-medium transition relative group ${
-                  pathname === '/acerca-de' ? 'text-[#154E40]' : 'text-gray-700'
-                }`}
-              >
-                {/* Línea superior que se muestra al hover */}
-                <span className="absolute -top-1 left-0 w-0 h-0.5 bg-[#154E40] transition-all duration-300 group-hover:w-full"></span>
-                
-                {/* Línea inferior para la ruta activa */}
-                {pathname === '/acerca-de' && (
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-[#154E40]"></span>
-                )}
-                
-                Acerca del Proyecto
-              </Link>
               
               <Link 
                 href="/trazabilidad" 

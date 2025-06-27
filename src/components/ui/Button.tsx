@@ -12,48 +12,39 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  onClick,
-  variant = 'primary',
-  size = 'md',
-  fullWidth = false,
-  icon,
+const Button: React.FC<ButtonProps> = ({ 
+  children, 
+  variant = 'primary', 
+  size = 'md', 
+  icon, 
   className = '',
-  disabled = false,
-  type = 'button',
+  ...props 
 }) => {
   // Estilos base
-  const baseStyles = "font-medium rounded-lg transition-all duration-200 inline-flex items-center justify-center";
+  const baseStyles = "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-md";
   
-  // Variantes de estilo
-  const variantStyles = {
-    primary: "bg-[#154E40] text-white hover:bg-[#2DB292] focus:ring-2 focus:ring-offset-2 focus:ring-[#154E40]",
-    secondary: "bg-[#FFA92B] text-white hover:bg-[#e69518] focus:ring-2 focus:ring-offset-2 focus:ring-[#FFA92B]",
+  // Variantes
+  const variants = {
+    primary: "bg-[#154E40] text-white hover:bg-[#2DB292] shadow-sm",
+    secondary: "bg-[#2DB292] text-white hover:bg-[#154E40] shadow-sm",
     outline: "bg-transparent border-2 border-[#2DB292] text-[#2DB292] hover:bg-[#2DB292] hover:text-white",
-    text: "bg-transparent text-[#154E40] hover:bg-[#f0f0f0]"
+    text: "bg-transparent text-[#2DB292] hover:underline",
+    accent: "bg-[#FFA92B] text-white hover:bg-[#e69518] shadow-sm",
+    ghost: "bg-[rgba(255,255,255,0.2)] text-white border border-white hover:bg-[rgba(45,178,146,0.7)] hover:border-[#2DB292]"
   };
   
   // Tamaños
-  const sizeStyles = {
-    sm: "text-sm px-3 py-1.5",
-    md: "px-4 py-2",
-    lg: "text-lg px-6 py-3"
+  const sizes = {
+    sm: "text-xs px-3 py-1.5",
+    md: "text-sm px-6 py-2.5",
+    lg: "text-base px-8 py-3.5"
   };
   
-  // Ancho completo
-  const widthStyles = fullWidth ? "w-full" : "";
-  
-  // Estilo deshabilitado
-  const disabledStyles = disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer";
-
   return (
     <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${widthStyles} ${disabledStyles} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       style={{ fontFamily: 'Montserrat' }}
+      {...props}
     >
       {icon && <span className="mr-2">{icon}</span>}
       {children}

@@ -14,7 +14,7 @@ const Footer = () => {
             <div className="flex items-center mb-6">
               <FaLeaf className="text-[#66C874] text-2xl mr-2" />
               <h3 
-                className="text-2xl font-bold" 
+                className="text-2xl" 
                 style={{ fontFamily: 'Omegle' }}
               >
                 Proyecto PLANTAS
@@ -35,7 +35,7 @@ const Footer = () => {
           {/* Columna 2: Enlaces rápidos */}
           <div className="lg:ml-8">
             <h4 
-              className="text-xl font-bold mb-6" 
+              className="text-xl mb-6" 
               style={{ fontFamily: 'Omegle', color: '#2DB292' }}
             >
               Enlaces de Interés
@@ -107,7 +107,7 @@ const Footer = () => {
           {/* Columna 3: Información de contacto */}
           <div>
             <h4 
-              className="text-xl font-bold mb-6" 
+              className="text-xl mb-6" 
               style={{ fontFamily: 'Omegle', color: '#2DB292' }}
             >
               Contacto
@@ -149,7 +149,7 @@ const Footer = () => {
           {/* Columna 4: Redes sociales y boletín */}
           <div>
             <h4 
-              className="text-xl font-bold mb-6" 
+              className="text-xl mb-6" 
               style={{ fontFamily: 'Omegle', color: '#2DB292' }}
             >
               Síguenos
